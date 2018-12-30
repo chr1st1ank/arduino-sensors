@@ -1,75 +1,8 @@
 #ifndef SENSOR_H
 #define SENSOR_H
 
-const int STATE_UNKNOWN = 0x2;
-
-//////////////////////////////////////////////////////////////////////////
-// Base class that only manages naming ///////////////////////////////////
-//////////////////////////////////////////////////////////////////////////
-class AbstractSensor {
-  private:
-    int _pin; // 0 means: Empty slot
-    const char* _name;
-
-  public:
-
-    AbstractSensor() : _pin(0), _name(nullptr)
-    {
-    }
-
-    // Reset state and assign new pin and delay
-    void init(int pin, const char* name)
-    {
-      _pin = pin;
-      _name = name;
-    }
-
-    virtual void reset()
-    {
-    }
-
-    void setName(const char* name)
-    {
-      _name = name;
-    }
-
-    const char* name()
-    {
-      return _name;
-    }
-
-    int pin()
-    {
-      return _pin;
-    }
-
-    virtual bool isActive(){
-      return (pin() != 0);
-    }
-
-//    int delay()
-//    {
-//      return _delay;
-//    }
-//
-//    int& pinRef()
-//    {
-//      return _pin;
-//    }
-//
-//    int& delayRef()
-//    {
-//      return _delay;
-//    }
-
-    virtual bool update(bool force) = 0;
-
-//    int state()
-//    {
-//      return _state;
-//    }
-};
-
+#include "_as_private_sensor_utils.h"
+#include "asAbstractSensor.h"
 
 //////////////////////////////////////////////////////////////////////////
 // Class to manage binary input pins /////////////////////////////////////
@@ -226,7 +159,6 @@ class ClimateSensor : public AbstractSensor {
 
       // Check if any reads failed and exit early (don't update _lastMeasurement to try again).
       if (isnan(h) || isnan(t)) {
-        DEBUG(F("Failed to read from DHT sensor!"));
         return false;
       }
 
