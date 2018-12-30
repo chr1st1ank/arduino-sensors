@@ -8,22 +8,38 @@
 
 namespace as{
 
+  /**
+   * @brief Base class for all sensors in the arduino-sensors library.
+   * 
+   * This class manages only the naming and holds the associated pin.
+   * 
+   */
   class AbstractSensor {
     private:
       int _pin; // 0 means: Empty slot
       const char* _name;
 
-    public:
-
-      AbstractSensor() : _pin(0), _name(nullptr)
-      {
-      }
-
-      // Reset state and assign new pin and delay
+    protected:
+      /**
+       * @brief Reset state and assign new pin, name and delay
+       * 
+       * @param pin The pin to assign to this sensor object.
+       * @param name The name of the sensor. This needs to be a pointer to a char array. The string is not copied but just referenced to save memory, so make sure the pointer stays valid.
+       */
       void init(int pin, const char* name)
       {
         _pin = pin;
         _name = name;
+      }
+
+    public:
+
+      /**
+       * @brief Construct a new uninitialized AbstractSensor object.
+       * 
+       */
+      AbstractSensor() : _pin(0), _name(nullptr)
+      {
       }
 
       /**

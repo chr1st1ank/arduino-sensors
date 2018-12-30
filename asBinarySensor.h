@@ -9,6 +9,13 @@
 
 namespace as{
 
+  /**
+   * @brief Class for binary sensors which are directly connected to an I/O pin.
+   * 
+   * Examples of sensors which work this way are reed switches or PIR sensors. 
+   * In both cases consider using the internal pullup resistors.
+   * 
+   */
   class BinarySensor : public AbstractSensor {
     protected:
       bool _use_pullup; // Use the internal pullup resistor?
@@ -19,7 +26,7 @@ namespace as{
     public:
 
       /**
-       * @brief Construct a new BinarySensor object
+       * @brief Construct a new uninitialized BinarySensor object
        * 
        */
       BinarySensor() : AbstractSensor(), _use_pullup(false), _delay(0), _state(STATE_UNKNOWN), _lastActivity(0)
