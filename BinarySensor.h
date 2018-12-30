@@ -1,6 +1,8 @@
 #ifndef BINARYSENSOR_H
 #define BINARYSENSOR_H
 
+const int STATE_UNKNOWN = 0x2;
+
 //////////////////////////////////////////////////////////////////////////
 // Class to manage binary input pins /////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -14,7 +16,7 @@ class BinarySensor {
     const char* _name;
     
   public:
-    BinarySensor() : _pin(0), _use_pullup(false), _delay(0), _state(LOW), _lastActivity(0), _name(nullptr)
+    BinarySensor() : _pin(0), _use_pullup(false), _delay(0), _state(STATE_UNKNOWN), _lastActivity(0), _name(nullptr)
     {
     }
 
@@ -33,7 +35,7 @@ class BinarySensor {
     // Reset state but don't change pin and delay
     void reset()
     {
-      _state = LOW;
+      _state = STATE_UNKNOWN;
       _lastActivity = 0;
       if(_pin != 0){
         if(_use_pullup){
@@ -83,7 +85,7 @@ class BinarySensor {
       }
       
       // Return LOW only after delay() seconds of inactivity
-      if(s == LOW && (millis() < _lastActivity + (delay()*1000)))
+      if(s == LOW && _state == HIGH && (millis() < _lastActivity + (delay()*1000)))
       {
         // Delay not yet over: Forget about "LOW"
         s = HIGH;
